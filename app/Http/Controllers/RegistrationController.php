@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Shop;
 use App\Models\Role;
 use Auth;
 use Hash;
@@ -32,13 +33,16 @@ class RegistrationController extends Controller
         if($request->input('privilege') == '1') {
             $userRole = Role::where('slug', '=', 'user')->first();
             $user->role()->associate($userRole);
+            $user->save();
         }
         else {
             $userRole = Role::where('slug', '=', 'merchant')->first();
             $user->role()->associate($userRole);
+            $user->save();
+            Shop::insert([
+                'user_id' => $user->id,
+            ]);
         }
-
-        $user->save();
 
         Auth::login($user);
         return redirect()->route('home');
