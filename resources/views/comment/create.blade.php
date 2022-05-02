@@ -1,6 +1,6 @@
 @extends("layout.main")
 
-@section("title", "bookmark")
+@section("title", "comment")
 
 @section("content")
 <div class="row">
